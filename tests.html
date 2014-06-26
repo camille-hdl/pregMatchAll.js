@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Tests</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+       
+    </head>
+    <body>
+		<script type="text/javascript" src="pregmatchall.js"></script>
+		<script type="text/javascript">
+			var str = "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'";
+			var matches = jsPregMatchAll(/ *([a-zA-Z0-9\-]+) *: *([^;]*)/gm,str);
+			console.log(matches);
+			var str2 = "abcdef";
+			var matches2 = jsPregMatchAll(/^def/gm,str2,"PREG_OFFSET_CAPTURE",3);
+			console.log("str2",matches2);
+
+
+			var str3 = "abcdef".slice(3);
+			var matches3 = jsPregMatchAll(/^def/gm,str3,"PREG_OFFSET_CAPTURE");
+			console.log("str3",matches3);
+
+			var str4 = "abcdef";
+			var matches4 = jsPregMatchAll(/def/gm,str4,"PREG_PATTERN_ORDER",3);
+			console.log("str4",matches4);
+		</script>
+	</body>
+</html>
