@@ -29,6 +29,12 @@ $tests = array(
 		"subject" => "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'",
 		"flag" => "PREG_OFFSET_CAPTURE",
 		"offset" => false
+	),
+	5 => array(
+		"pattern" => "/ *([a-zA-Z0-9\-]+) *: *([^;]*)/",
+		"subject" => "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'",
+		"flag" => "PREG_PATTERN_ORDER",
+		"offset" => false
 	)
 );
 ?>

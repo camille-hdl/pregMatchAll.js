@@ -54,7 +54,6 @@ function jsPregMatchAll(pattern,s,flag,offset) {
 					if(!matches[i]) matches[i] = [];
 					matches[i].push([args[i],fullMatch.indexOf(args[i])]);
 				}
-				//matches.push(matchesCapture);
 			}
 	});
 	return matches;
