@@ -59,7 +59,6 @@ $tests = array(
 				<th>#</th>
 				<th>PHP $matches (json encoded)</th>
 				<th>JS matches (JSON.stringify())</th>
-				<th>Same ?</th>
 			</tr>
 		<?php
 	

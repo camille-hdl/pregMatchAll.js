@@ -30,7 +30,7 @@ function jsPregMatchAll(pattern,s,flag,offset) {
 	s.replace(pattern,function(){
 			var args = [].slice.call(arguments);
 			// Remove unnecessary elements from the args array
-			args.pop();
+			var fullMatch = args.pop();
 			var offset = args.pop();
 			var substr = args[0];
 			// args now only contains the matches
@@ -47,7 +47,14 @@ function jsPregMatchAll(pattern,s,flag,offset) {
 			  }
 			}
 			else if(order==="PREG_OFFSET_CAPTURE") {
-				matches.push([substr,offset]);
+				if(!matches[0]) matches[0] = [];
+				matches[0].push([args[0],offset]);
+				var l = args.length;
+				for(var i=1;i<l;i++) {
+					if(!matches[i]) matches[i] = [];
+					matches[i].push([args[i],fullMatch.indexOf(args[i])]);
+				}
+				//matches.push(matchesCapture);
 			}
 	});
 	return matches;
