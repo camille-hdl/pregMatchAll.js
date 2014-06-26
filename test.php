@@ -17,6 +17,18 @@ $tests = array(
 		"subject" => "abcdef",
 		"flag" => "PREG_PATTERN_ORDER",
 		"offset" => false
+	),
+	3 => array(
+		"pattern" => "/def/",
+		"subject" => "abcdef",
+		"flag" => "PREG_OFFSET_CAPTURE",
+		"offset" => false
+	),
+	4 => array(
+		"pattern" => "/ *([a-zA-Z0-9\-]+) *: *([^;]*)/",
+		"subject" => "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'",
+		"flag" => "PREG_OFFSET_CAPTURE",
+		"offset" => false
 	)
 );
 ?>
@@ -46,7 +58,7 @@ $tests = array(
 			<tr>
 				<th>#</th>
 				<th>PHP $matches (json encoded)</th>
-				<th>JS matches (.toString())</th>
+				<th>JS matches (JSON.stringify())</th>
 				<th>Same ?</th>
 			</tr>
 		<?php
