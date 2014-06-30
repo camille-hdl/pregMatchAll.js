@@ -35,6 +35,18 @@ $tests = array(
 		"subject" => "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'",
 		"flag" => "PREG_PATTERN_ORDER",
 		"offset" => false
+	),
+	6 => array(
+		"pattern" => "/<body>([a-z0-9]+)<\/body>/",
+		"subject" => "<body>azeazeaze</body><body></body>",
+		"flag" => "PREG_PATTERN_ORDER",
+		"offset" => false
+	),
+	7 => array(
+		"pattern" => "/<body>([a-z0-9]+)<\/body>/",
+		"subject" => "<azeazdy>",
+		"flag" => "PREG_PATTERN_ORDER",
+		"offset" => false
 	)
 );
 ?>

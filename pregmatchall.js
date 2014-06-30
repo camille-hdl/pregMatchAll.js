@@ -27,6 +27,10 @@ function jsPregMatchAll(pattern,s,flag,offset) {
 		pattern = new RegExp(ps,flags); // Have to rebuild it at runtime so no literal...
 		
 	}
+	/**
+	*	 If the flag is 2 or 3, I should init the matches array with n+1 arrays
+	*    Where n = nb of capturing parentheses
+	*/
 	s.replace(pattern,function(){
 			var args = [].slice.call(arguments);
 			// Remove unnecessary elements from the args array
