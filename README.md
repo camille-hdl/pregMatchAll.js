@@ -1,11 +1,17 @@
-pregMatchAll.js
+#pregMatchAll.js
 ===============
 
-Want to use PHP's preg_match_all() in Javascript ? that's what you need.
+Want to use PHP's preg_match_all() in Javascript ?
 
+```javascript
+var pattern    = / *([a-z0-9\-]+) *: *([^;]*)/i;
+var str        = "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'";
+var matches    = jsPregMatchAll(pattern,str,"PREG_SET_ORDER");
+```
+    
 
 ##TODO
   * I need better tests (especially with the offset parameter)
   * encoding problems (see test #0)
-  * Don't know how to deal with empty `matches` with PREG_PATTERN_ORDER et PREG_OFFSET_CAPTURE...
-  * No support for flag combination yet ...
+  * No support for flag combinations yet ...
+  * For now, if you want to have the exact same output when nothing is matched, you have to provide the "nbP" parameter with the number of capturing parentheses...
