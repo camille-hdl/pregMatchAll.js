@@ -1,6 +1,6 @@
 /*
 * Want preg_match_all in JS ? use this, although it returns the array of matches instead of using a reference to a local variable.
-* One more thing : I named the function "js*Preg*MatchAll, but it isn't magic : regex implementation varies from PHP's PCRE to JS.
+* Also, I named the function "js*Preg*MatchAll, but it isn't magic : regex implementation varies from PHP's PCRE to JS.
 * Please let met know if you find it usefull or if you know how to improve it (especially the offset part) !
 * https://github.com/Eartz/pregMatchAll.js
 * camille.hodoul [cat] gmail.com
