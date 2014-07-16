@@ -15,3 +15,6 @@ var matches    = jsPregMatchAll(pattern,str,"PREG_SET_ORDER");
   * encoding problems (see test #0)
   * No support for flag combinations yet ...
   * For now, if you want to have the exact same output when nothing is matched, you have to provide the "nbP" parameter with the number of capturing parentheses...
+
+##see
+find_parens_sub in http://www.opensource.apple.com/source/pcre/pcre-4.2/pcre/pcre_compile.c to fix nbP parameter.
