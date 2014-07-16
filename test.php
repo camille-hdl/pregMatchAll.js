@@ -4,71 +4,61 @@ $tests = array(
 		"pattern" => "/ *([a-zA-Z0-9\-]+) *: *([^;]*)/",
 		"subject" => "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'",
 		"flag" => "PREG_SET_ORDER",
-		"offset" => false,
-		"nbP" => 2
+		"offset" => false
 	),
 	1 => array(
 		"pattern" => "/^def/",
 		"subject" => "abcdef",
 		"flag" => "PREG_OFFSET_CAPTURE",
-		"offset" => 3,
-		"nbP" => 0
+		"offset" => 3
 	),
 	2 => array(
 		"pattern" => "/def/",
 		"subject" => "abcdef",
 		"flag" => "PREG_PATTERN_ORDER",
-		"offset" => false,
-		"nbP" => 0
+		"offset" => false
 	),
 	3 => array(
 		"pattern" => "/def/",
 		"subject" => "abcdef",
 		"flag" => "PREG_OFFSET_CAPTURE",
-		"offset" => false,
-		"nbP" => 0
+		"offset" => false
 	),
 	4 => array(
 		"pattern" => "/ *([a-zA-Z0-9\-]+) *: *([^;]*)/",
 		"subject" => "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'",
 		"flag" => "PREG_OFFSET_CAPTURE",
-		"offset" => false,
-		"nbP" => 2
+		"offset" => false
 	),
 	5 => array(
 		"pattern" => "/ *([a-zA-Z0-9\-]+) *: *([^;]*)/",
 		"subject" => "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'",
 		"flag" => "PREG_PATTERN_ORDER",
-		"offset" => false,
-		"nbP" => 2
+		"offset" => false
 	),
 	6 => array(
 		"pattern" => "/<body>([a-z0-9]+?)<\/body>/",
 		"subject" => "<body>azeazeaze</body><body></body>",
 		"flag" => "PREG_PATTERN_ORDER",
-		"offset" => false,
-		"nbP" => 1
+		"offset" => false
 	),
 	7 => array(
 		"pattern" => "/<body>([a-z0-9]+)<\/body>/",
 		"subject" => "<azeazdy>",
 		"flag" => "PREG_PATTERN_ORDER",
-		"offset" => false,
-		"nbP" => 1
+		"offset" => false
 	),
 	8 => array(
 		"pattern" => "/^def/",
 		"subject" => "abcdef",
 		"flag" => "PREG_SET_ORDER",
-		"offset" => 3,
-		"nbP" => 0
+		"offset" => 3
 	),
 	9 => array(
 		"pattern" => "/<body>([a-z0-9]+)<\/body>/",
 		"subject" => "<azeazdy>",
 		"flag" => "PREG_SET_ORDER",
-		"offset" => false,
-		"nbP" => 1
+		"offset" => false
 	)
 );
 ?>
@@ -127,7 +117,7 @@ $tests = array(
 					  // I'm not using <?= tags because my local server cfg sucks.
 					foreach($tests as $n => $test):
 						?>
-						var matches_<?php echo $n; ?> = jsPregMatchAll(<?php echo $test['pattern']."gm"; ?>,"<?php echo $test['subject']; ?>","<?php echo $test['flag']; ?>",<?php echo $test['nbP']; ?><?php if($test['offset']) echo ",".$test['offset']; ?>);
+						var matches_<?php echo $n; ?> = jsPregMatchAll(<?php echo $test['pattern']."gm"; ?>,"<?php echo $test['subject']; ?>","<?php echo $test['flag']; ?>"<?php if($test['offset']) echo ",".$test['offset']; ?>);
 					   
 						document.getElementById("js_output_<?php echo $n; ?>").innerHTML = JSON.stringify(matches_<?php echo $n; ?>);
 						

@@ -5,15 +5,12 @@
 * https://github.com/Eartz/pregMatchAll.js
 * camille.hodoul [cat] gmail.com
 *
-* For now, if you want exactly the same output with PREG_PATTERN_ORDER and PREG_OFFSET_CAPTURE when nothing is matched,
-* you have to provide the nbP parameter : the number of capturing parentheses... I don't know how to find it otherwise.
 */
-function jsPregMatchAll(pattern,s,flag,nbP,offset) {
+function jsPregMatchAll(pattern,s,flag,offset) {
 	var order = flag || "PREG_PATTERN_ORDER";
 	var matches = [];
-	if(typeof(nbP)==="undefined") {
-		nbP = 0;
-	}
+	var nbP = find_parens_sub(pattern.source);
+	console.log(pattern.source+":"+nbP);
 	if(typeof(offset)!=="undefined" && offset>0) {
 		// try to reproduce the behavior of the offset parameter, but I'm not sure how to test it.
 		// I have to rebuild a pattern.
@@ -74,3 +71,145 @@ function jsPregMatchAll(pattern,s,flag,nbP,offset) {
 	return matches;
 }
 
+/*
+I copied this function from http://www.opensource.apple.com/source/pcre/pcre-4.2/pcre/pcre_compile.c ,
+but removed the parts I don't need, so it isn't an exact implementation. It should do the trick though.
+*/
+function find_parens_sub(ptr,count) {
+	"use strict"
+	var count = count || 0;
+	var start_count = count;
+	var hwm_count = start_count;
+	var i = 0;
+	var dup_parens = false;
+	/* If the first character is a parenthesis, check on the type of group we are
+dealing with. The very first call may not start with a parenthesis. */
+	if(ptr[0]=="(") {
+		if(ptr[1] == "?" && ptr[2]=="|") {
+			i += 3;
+			dup_parens = true;
+		}
+
+		/* Handle a normal, unnamed capturing parenthesis */
+		else if(ptr[1] != "?" && ptr[1] != "*") {
+			count += 1;
+			i++;
+		}
+		/* Handle a condition. If it is an assertion, just carry on so that it
+		  is processed as normal. If not, skip to the closing parenthesis of the
+		  condition (there can't be any nested parens. */
+		else if(ptr[i+2]=="(") {
+			i+= 2;
+			if(ptr[i+1] != "(") {
+				while(!!ptr[i] && ptr[i]!=")") i++;
+				if(ptr[i]!=0) i++;
+			}
+		}
+		/* We have either (? or (* and not a condition */
+		else {
+			i+=2;
+			if(ptr[i]=="P") i++;
+
+			/* We have to disambiguate (?<! and (?<= from (?<name> for named groups */
+			if((ptr[i]=="<" && ptr[i+1] != "!" && ptr[i+1] != "=") || ptr[i]=="'") {
+				count++;
+			}
+		}
+	}
+	
+	/* Past any initial parenthesis handling, scan for parentheses or vertical
+	bars. */
+	for(;!!ptr[i];i++) {
+			/* Skip over backslashed characters and also entire \Q...\E */
+			if(ptr[i]=="\\") {
+				if(!ptr[++i]) throw new Error("Weird backslash ?");
+				if(ptr[i]=="Q") for(;;) {
+					while(!!ptr[++i] && ptr[i] != "\\") {};
+					if(!ptr[i]) throw new Error("No \E ?");
+					if(ptr[++i]=="E") break;
+				}
+				continue;
+			}
+			/* Skip over character classes; this logic must be similar to the way they
+			  are handled for real. If the first character is '^', skip it. Also, if the
+			  first few characters (either before or after ^) are \Q\E or \E we skip them
+			  too. */
+			if(ptr[i]=="[") {
+				var negate_class = false;
+				for(;;) {
+					var c = ptr[++i];
+					if(c=="\\") {
+						if(ptr[i] == "E") i++;
+						else if(!strncmp(ptr[i+1]),"Q\\E",3) {
+							i+=3;
+						}
+						else {
+							break;
+						}
+					}
+					else if(!negate_class && c == "^") {
+						negate_class=true;
+					}
+					else break;
+				}
+
+
+				/* If the next character is ']', it is a data character that must be
+				skipped, except in JavaScript compatibility mode. */
+				if(ptr[i] == "]" && false) {
+					i++;
+				}
+				while(ptr[++i] != "]") {
+					if(!ptr[i]) {
+						return count;
+					}
+					if(ptr[i]=="\\") {
+						if(!ptr[++i]) throw new Error("Weird backslash ?");
+						if(ptr[i]=="Q")for(;;) {
+							while(!!ptr[++i] && ptr[i]!= "\\") {};
+							if(!ptr[i]) throw new Error("No \E ?");
+							if(ptr[++i]=="E") break;
+						}
+						continue;
+					}
+				}
+				continue;
+			}
+		
+	
+		/* Check for the special metacharacters */
+		if(ptr[i] == "(") {
+			
+			count = find_parens_sub(ptr.slice(i),count);
+			return count;
+		}
+		else if(ptr[i]==")") {
+			if(dup_parens && count < hwm_count) count = hwm_count;
+		}
+		else if(ptr[i] == "|" && dup_parens) {
+			if(count > hwm_count) hwm_count = count;
+			count = start_count;
+		}
+	}
+	return count;
+}
+
+function strncmp(str1, str2, lgth) {
+  //       discuss at: http://phpjs.org/functions/strncmp/
+  //      original by: Waldo Malqui Silva
+  //         input by: Steve Hilder
+  //      improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  //       revised by: gorthaur
+  // reimplemented by: Brett Zamir (http://brett-zamir.me)
+  //        example 1: strncmp('aaa', 'aab', 2);
+  //        returns 1: 0
+  //        example 2: strncmp('aaa', 'aab', 3 );
+  //        returns 2: -1
+
+  var s1 = (str1 + '')
+    .substr(0, lgth);
+  var s2 = (str2 + '')
+    .substr(0, lgth);
+
+  return ((s1 == s2) ? 0 : ((s1 > s2) ? 1 : -1));
+}
