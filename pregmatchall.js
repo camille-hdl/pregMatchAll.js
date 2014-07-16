@@ -10,7 +10,7 @@ function jsPregMatchAll(pattern,s,flag,offset) {
 	var order = flag || "PREG_PATTERN_ORDER";
 	var matches = [];
 	var nbP = find_parens_sub(pattern.source);
-	console.log(pattern.source+":"+nbP);
+	
 	if(typeof(offset)!=="undefined" && offset>0) {
 		// try to reproduce the behavior of the offset parameter, but I'm not sure how to test it.
 		// I have to rebuild a pattern.
