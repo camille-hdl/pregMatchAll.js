@@ -8,6 +8,26 @@
  */
 
 var preg_match_all = (function() {
+  //  discuss at: 
+  //  original by: Camille Hodoul (http://webdev-snippets.net)
+  //        note: The pattern must be a RegExp object.
+  //        note: The function returns the matches array, instead of using a reference.
+  //        note: Flag combination isn't supported yet.
+  //        note: Dependency: strncmp.js
+  //  example 1: var str = 'X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é';
+  //  example 1: var ptr = / *([a-zA-Z0-9\-]+) *: *([^;]*)/gm;
+  //  example 1: jsPregMatchAll(ptr,str);
+  //  returns 1: [
+  //  returns 1:  ['X-MyHeader: MyValue',' X-AZE: adqdsdfff','USERAGENT: Chrome123123 é'],
+  //  returns 1:  ['X-MyHeader','X-AZE','USERAGENT'],
+  //  returns 1:  ['MyValue','adqdsdfff','Chrome123123 é']]
+
+  //  UNFINISHED this is a work in progress.
+  //  It's using Javascript's regex engine, which is different from PHP's PCRE.
+
+
+
+
   //  _find_parens_sub and _strcmp are declared in the closure, to avoid polluting the global scope.
 
   //  _find_parens_sub : I copied this function from http://www.opensource.apple.com/source/pcre/pcre-4.2/pcre/pcre_compile.c ,
@@ -150,23 +170,7 @@ var preg_match_all = (function() {
 
   //  the actual function
   return function(pattern, s, flag, offset) {
-    //  discuss at: 
-    //  original by: Camille Hodoul (http://webdev-snippets.net)
-    //        note: The pattern must be a RegExp object.
-    //        note: The function returns the matches array, instead of using a reference.
-    //        note: Flag combination isn't supported yet.
-    //        note: Dependency: strncmp.js
-    //  example 1: var str = 'X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é';
-    //  example 1: var ptr = / *([a-zA-Z0-9\-]+) *: *([^;]*)/gm;
-    //  example 1: jsPregMatchAll(ptr,str);
-    //  returns 1: [
-    //  returns 1:  ['X-MyHeader: MyValue',' X-AZE: adqdsdfff','USERAGENT: Chrome123123 é'],
-    //  returns 1:  ['X-MyHeader','X-AZE','USERAGENT'],
-    //  returns 1:  ['MyValue','adqdsdfff','Chrome123123 é']]
-
-    //  UNFINISHED this is a work in progress.
-    //  It's using Javascript's regex engine, which is different from PHP's PCRE.
-    
+      
     var order = flag || 'PREG_PATTERN_ORDER';
     //  TODO support flag combination
     var matches = [];
