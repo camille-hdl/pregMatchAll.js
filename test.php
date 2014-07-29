@@ -117,7 +117,7 @@ $tests = array(
 					  // I'm not using <?= tags because my local server cfg sucks.
 					foreach($tests as $n => $test):
 						?>
-						var matches_<?php echo $n; ?> = jsPregMatchAll(<?php echo $test['pattern']."gm"; ?>,"<?php echo $test['subject']; ?>","<?php echo $test['flag']; ?>"<?php if($test['offset']) echo ",".$test['offset']; ?>);
+						var matches_<?php echo $n; ?> = preg_match_all(<?php echo $test['pattern']."gm"; ?>,"<?php echo $test['subject']; ?>","<?php echo $test['flag']; ?>"<?php if($test['offset']) echo ",".$test['offset']; ?>);
 					   
 						document.getElementById("js_output_<?php echo $n; ?>").innerHTML = JSON.stringify(matches_<?php echo $n; ?>);
 						
