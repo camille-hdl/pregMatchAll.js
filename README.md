@@ -6,15 +6,17 @@ Want to use PHP's preg_match_all() in Javascript ?
 ```javascript
 var pattern    = / *([a-z0-9\-]+) *: *([^;]*)/i;
 var str        = "X-MyHeader: MyValue; X-AZE: adqdsdfff;USERAGENT: Chrome123123 é'";
-var matches    = jsPregMatchAll(pattern,str,"PREG_SET_ORDER");
+var matches    = preg_match_all(pattern,str,"PREG_SET_ORDER");
 ```
     
+##Notes
+  * Javascript's build-in regex engine is used, and it is different from PHP's PCRE engine.
+  * This code is also available in [php.js (workbench)](https://github.com/kvz/phpjs/blob/master/workbench/pcre/preg_match_all.js)
 
 ##TODO
   * I need better tests (especially with the offset parameter)
   * encoding problems (see test #0)
-  * No support for flag combinations yet ...
-  * For now, if you want to have the exact same output when nothing is matched, you have to provide the "nbP" parameter with the number of capturing parentheses...
+  * No support for flag combinations for now
 
-##see
-find_parens_sub in http://www.opensource.apple.com/source/pcre/pcre-4.2/pcre/pcre_compile.c to fix nbP parameter.
+
+Know how to fix something ? Want to add test cases ? Please tell me here or by email at camille.hodoul  at gmail.com
